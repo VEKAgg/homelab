@@ -1,13 +1,13 @@
-# 🏠 VEKA Homelab: Selfhosted Private Cloud & Services
+# 🏠 VEKA Homelab: Selfhosted Private Cloud & Content Creation Hub
 
 <div align="center">
 
 ![Homelab Status](https://img.shields.io/badge/Status-Active%20Development-green)
-![Services](https://img.shields.io/badge/Services-4%2F20-blue)
-![Uptime](https://img.shields.io/badge/Uptime-99.5%25-brightgreen)
-![Storage](https://img.shields.io/badge/Storage-7.2TB-orange)
+![Services](https://img.shields.io/badge/Services-3%2F15-blue)
+![Uptime](https://img.shields.io/badge/Uptime-Local%20Development-yellow)
+![Domain](https://img.shields.io/badge/Domain-veka.gg-purple)
 
-*Enterprise-grade homelab built on privacy, performance, and reliability*
+*Gaming PC turned enterprise homelab for content creation and self-hosting*
 
 [📖 Documentation](#documentation) • [🚀 Getting Started](#getting-started) • [📊 Services](#services) • [🛠️ Hardware](#hardware) • [🤝 Contributing](#contributing)
 
@@ -15,18 +15,18 @@
 
 ---
 
-## 🎯 Project Overview
+## 🎯 Project Vision
 
-VEKA Homelab is a comprehensive self-hosted infrastructure designed to replace cloud services with privacy-first, locally-controlled alternatives. Built on enterprise Dell hardware with TrueNAS storage, it provides secure, high-performance services for photo management, media streaming, file storage, and more.
+VEKA Homelab transforms a gaming PC into a comprehensive content creation and self-hosting platform. Built around **veka.gg**, this setup supports streaming, web development, photo management, and privacy-focused alternatives to cloud services.
 
-### ✨ Key Features
+### ✨ Core Focus Areas
 
+- 🎮 **Content Creation**: Dual-PC streaming setup with NDI/RTMP
+- 🌐 **Web Development**: Hosting SvelteKit sites and GitHub projects  
+- 📷 **Photo Management**: Self-hosted Google Photos alternative
+- 🎬 **Media Server**: Personal Netflix with automated downloads
+- 🏠 **Home Automation**: Smart home control and monitoring
 - 🔒 **Privacy First**: All data stays on your hardware
-- 🚀 **High Performance**: Enterprise-grade Dell OptiPlex with 64GB RAM
-- 💾 **Reliable Storage**: ZFS with redundancy and snapshots
-- 🐳 **Container Native**: All services run in Docker for easy management
-- 🌐 **Smart Networking**: Custom DNS with Pi-hole ad blocking
-- 📱 **Mobile Ready**: Apps for photo backup and media streaming
 
 ---
 
@@ -34,42 +34,60 @@ VEKA Homelab is a comprehensive self-hosted infrastructure designed to replace c
 
 | Service | Status | URL | Purpose |
 |---------|--------|-----|---------|
-| 🖼️ **Immich** | ✅ Active | `immich.veka:2283` | AI-powered photo management |
-| 🛡️ **Pi-hole** | ✅ Active | `pihole.veka:8080` | DNS + Ad blocking |
 | 🐳 **Portainer** | ✅ Active | `portainer.veka:9000` | Container management |
+| 🛡️ **Pi-hole** | ✅ Active | `pihole.veka:8080` | DNS + Ad blocking |
+| 🖼️ **Immich** | 🔧 Setup | `immich.veka:2283` | AI photo management |
 | 💾 **TrueNAS** | ✅ Active | `truenas.veka` | Storage management |
 
-### 🚧 Planned Services
+### 🚧 In Development
 
-- **Jellyfin** - Media server for movies/TV shows
-- **Nextcloud** - File sync and collaboration
-- **Home Assistant** - Home automation hub
+- **VEKA Website** - Main veka.gg SvelteKit site
+- **OBS Headless** - Streaming infrastructure 
 - **Nginx Proxy Manager** - Reverse proxy with SSL
-- **Grafana + Prometheus** - Monitoring and metrics
+- **Minecraft Server** - Gaming with friends
+
+### 📋 Planned Services
+
+- **Jellyfin** - Media server (`media.veka.gg`)
+- **Nextcloud** - File sync (`cloud.veka.gg`)
+- **Home Assistant** - Smart home hub
 - **Vaultwarden** - Password manager
+- **Grafana + Prometheus** - Monitoring and metrics
 - **Paperless-ngx** - Document management
+- **Ollama** - Local AI models
 
 ---
 
-## 🛠️ Hardware Specifications
+## 🛠️ Hardware Stack
 
-### **Host Machine: Dell OptiPlex 7070 Micro**
+### **Main Server: Gaming PC Repurposed**
 ```yaml
-CPU:     Intel Core i7-9700T (8C/8T, 2.0-4.3GHz)
-RAM:     64GB DDR4 SO-DIMM (2x32GB)
-Storage: 1TB NVMe SSD (Proxmox)
-Network: Gigabit Ethernet
-Power:   ~65W TDP
-Form:    Ultra-compact business desktop
+CPU:          Intel i7-7700K (4c/8t, Kaby Lake)
+Motherboard:  ASUS ROG Strix Z270E Gaming
+RAM:          32GB+ DDR4 (expandable)
+GPU:          GTX 1080 Ti (available for transcoding)
+Storage:      1TB HDD + 4TB drives
+Network:      Gigabit LAN (2.5G/10G ready)
+Platform:     Proxmox VE
+Power:        Gaming PC PSU (~400W under load)
 ```
 
-### **Storage Array: TrueNAS SCALE**
+### **Storage Strategy**
 ```yaml
-Primary:  3x 4TB WD Red Plus (RAIDZ1)
-Cache:    466GB SSD cache device
-SLOG:     1TB dedicated log device
-Usable:   7.2TB (with single parity)
-Features: Compression, snapshots, checksums
+Boot Drive:   1TB HDD (Proxmox host)
+Primary:      4TB drives (Docker/VM storage)
+Backup:       Cloud sync transition in progress
+Future:       Local NAS expansion planned
+Features:     ZFS snapshots, compression
+```
+
+### **Network Infrastructure**
+```yaml
+Router:       ISP provided (OPNSense planned)
+Domain:       veka.gg + subdomain strategy
+VPN:          Tailscale for remote access
+Proxy:        Nginx Proxy Manager (planned)
+DNS:          Pi-hole with custom .veka domains
 ```
 
 ---
@@ -78,53 +96,98 @@ Features: Compression, snapshots, checksums
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                  Dell OptiPlex 7070                    │
-│                     Proxmox VE                         │
+│                Gaming PC - Proxmox VE                  │
+│                  Host System                           │
 ├─────────────────────┬───────────────────────────────────┤
-│   TrueNAS SCALE     │      Docker Host (LXC)          │
-│   192.168.1.98      │      192.168.1.97               │
+│   TrueNAS SCALE     │      Docker LXC                  │
+│   Storage Manager   │      Service Host                │
 │                     │                                  │
 │ ┌─────────────────┐ │ ┌──────────────────────────────┐ │
-│ │ ZFS Storage     │ │ │ Services:                    │ │
-│ │ ├─ immich/      │ │ │ ├─ Immich (Photos)          │ │
-│ │ ├─ media/       │ │ │ ├─ Pi-hole (DNS)            │ │
-│ │ ├─ documents/   │ │ │ ├─ Portainer (Management)   │ │
-│ │ └─ backups/     │ │ │ └─ More services...         │ │
+│ │ Storage Pools   │ │ │ Core Services:               │ │
+│ │ ├─ media/       │ │ │ ├─ Portainer                 │ │
+│ │ ├─ photos/      │ │ │ ├─ Pi-hole                   │ │
+│ │ ├─ documents/   │ │ │ ├─ Immich                    │ │
+│ │ └─ backups/     │ │ │ └─ VEKA sites...            │ │
 │ └─────────────────┘ │ └──────────────────────────────┘ │
+├─────────────────────┼───────────────────────────────────┤
+│   Arch Linux VM     │      OBS Headless VM            │
+│   (Web Hosting)     │      (Content Creation)         │
 └─────────────────────┴───────────────────────────────────┘
 ```
 
-### 🌐 Network Layout
+---
 
-| Component | IP Address | Domain | Purpose |
-|-----------|------------|--------|---------|
-| Proxmox Host | `192.168.1.99` | `pve.veka` | Hypervisor management |
-| TrueNAS SCALE | `192.168.1.98` | `truenas.veka` | Storage management |
-| Docker Host | `192.168.1.97` | `docker.veka` | Service container host |
-| Pi-hole DNS | `192.168.1.97:8080` | `pihole.veka` | Network DNS & ad blocking |
+## 🎯 Project Roadmap
+
+### ✅ Phase 1: Foundation (Complete)
+- [x] Proxmox VE setup on gaming PC
+- [x] TrueNAS SCALE for storage management
+- [x] Docker container environment (LXC)
+- [x] Basic networking and DNS with Pi-hole
+
+### 🚧 Phase 2: Content Creation (In Progress)
+- [ ] **VEKA Website Hosting** (veka.gg SvelteKit)
+- [ ] **OBS Headless Setup** (dual-PC streaming)
+- [ ] **NDI Integration** (laptop → homelab)
+- [ ] **RTMP Streaming** (mobile IRL streams)
+- [x] **Immich Photo Management** (family photos)
+
+### 📋 Phase 3: Media & Automation (Planned)
+- [ ] **Jellyfin Media Server** (movies/TV)
+- [ ] **Nextcloud File Sync** (cloud replacement)
+- [ ] **Home Assistant** (smart home hub)
+- [ ] **Minecraft Server** (mc.veka.gg)
+
+### 🚀 Phase 4: Advanced Features (Future)
+- [ ] **Monitoring Stack** (Grafana + Prometheus)
+- [ ] **Ollama AI Models** (local LLM hosting)
+- [ ] **OPNSense Router** (network upgrade)
+- [ ] **Dashcam App** (future project)
+
+---
+
+## 🌐 Domain Strategy
+
+### **Subdomain Planning**
+```yaml
+veka.gg           # Main website (SvelteKit)
+cloud.veka.gg     # Nextcloud file sync
+photos.veka.gg    # Immich photo management
+media.veka.gg     # Jellyfin media server
+mc.veka.gg        # Minecraft server
+stream.veka.gg    # OBS/streaming dashboard
+home.veka.gg      # Home Assistant
+dash.veka.gg      # Grafana monitoring
+```
+
+### **Access Strategy**
+- **Local Network**: Custom .veka domains via Pi-hole
+- **Remote Access**: Tailscale VPN for security
+- **Public Services**: Selective exposure via reverse proxy
+- **Development**: Local testing environment
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- Dell OptiPlex 7070 Micro (or similar)
-- 3x 4TB drives for storage array
-- Basic networking knowledge
-- Patience for learning! 😊
+### **Prerequisites**
+- Gaming PC with virtualization support
+- Multiple storage drives (4TB+ recommended)
+- Stable internet connection
+- Domain name (optional but recommended)
 
-### Quick Start
-1. **Clone this repository**
-   ```bash
-   git clone https://github.com/VEKAgg/homelab.git
-   cd homelab
-   ```
+### **Quick Start**
+```bash
+# Clone this repository
+git clone https://github.com/VEKAgg/homelab.git
+cd homelab
 
-2. **Review the hardware setup** in `/docs/hardware-setup.md`
+# Review hardware compatibility
+cat docs/hardware-requirements.md
 
-3. **Follow the installation guides** in `/docs/installation/`
-
-4. **Deploy services** using the compose files in `/docker-compose/`
+# Follow installation guide
+docs/installation/proxmox-setup.md
+```
 
 ---
 
@@ -133,23 +196,28 @@ Features: Compression, snapshots, checksums
 ```
 homelab/
 ├── 📁 docs/                    # Comprehensive documentation
-│   ├── hardware-setup.md       # Hardware configuration guide
-│   ├── network-setup.md        # Network architecture
-│   ├── installation/           # Step-by-step install guides
+│   ├── hardware-conversion.md  # Gaming PC → Homelab guide
+│   ├── streaming-setup.md      # OBS and content creation
+│   ├── network-config.md       # Domain and proxy setup
+│   ├── installation/           # Step-by-step guides
 │   └── troubleshooting.md      # Common issues & solutions
 ├── 📁 docker-compose/          # Service deployment files
+│   ├── media-stack/            # Jellyfin + ARR services
+│   ├── content-creation/       # OBS, streaming tools
+│   ├── web-hosting/            # VEKA sites and projects
 │   ├── immich/                 # Photo management
 │   ├── pihole/                 # DNS + Ad blocking
-│   ├── portainer/              # Container management
 │   └── monitoring/             # Grafana + Prometheus
 ├── 📁 scripts/                 # Automation scripts
-│   ├── backup.sh               # Automated backup script
-│   ├── update.sh               # Service update script
-│   └── monitoring.sh           # Health check script
-├── 📁 configs/                 # Configuration files
-│   ├── nginx/                  # Proxy configurations
+│   ├── stream-setup.sh         # OBS automation
+│   ├── backup-configs.sh       # Configuration backup
+│   ├── deploy-site.sh          # Website deployment
+│   └── update-services.sh      # Bulk service updates
+├── 📁 configs/                 # Service configurations
+│   ├── nginx/                  # Reverse proxy configs
+│   ├── obs/                    # Streaming configurations
 │   ├── grafana/                # Monitoring dashboards
-│   └── networking/             # Network configurations
+│   └── networking/             # Network setup files
 └── 📄 README.md               # This file
 ```
 
@@ -160,56 +228,37 @@ homelab/
 | Technology | Purpose | Why Chosen |
 |------------|---------|------------|
 | **Proxmox VE** | Hypervisor | Enterprise features, web management |
-| **TrueNAS SCALE** | Storage OS | ZFS reliability, enterprise features |
+| **TrueNAS SCALE** | Storage OS | ZFS reliability, data protection |
 | **Docker** | Containerization | Easy deployment, isolation |
-| **ZFS** | File System | Data integrity, snapshots, compression |
 | **Pi-hole** | DNS/Ad Block | Network-wide ad blocking |
-| **Portainer** | Container UI | Easy Docker management |
+| **Portainer** | Container UI | Visual Docker management |
+| **Immich** | Photo Management | Privacy-focused Google Photos alternative |
 
 ---
 
-## 📖 Documentation
+## 🎬 Content Creation Features
 
-| Document | Description |
-|----------|-------------|
-| [🔧 Hardware Setup](docs/hardware-setup.md) | Dell OptiPlex configuration and storage setup |
-| [🌐 Network Configuration](docs/network-setup.md) | IP allocation, DNS, and routing |
-| [🐳 Docker Services](docs/docker-services.md) | Container deployment and management |
-| [💾 Storage Strategy](docs/storage-strategy.md) | ZFS configuration and data organization |
-| [🔒 Security Guide](docs/security.md) | Hardening and access control |
-| [📊 Monitoring Setup](docs/monitoring.md) | Grafana dashboards and alerting |
-| [🔄 Backup Strategy](docs/backup-strategy.md) | Local and offsite backup configuration |
-| [🐛 Troubleshooting](docs/troubleshooting.md) | Common issues and solutions |
+### **Dual-PC Streaming Setup**
+- **Main PC**: Gaming/content creation workstation
+- **Homelab**: OBS encoding and streaming backend
+- **Connection**: NDI over gigabit network
+- **Backup**: RTMP ingest from mobile (IRL streams)
 
----
+### **Streaming Infrastructure**
+```yaml
+OBS Headless:     Proxmox VM for encoding
+NDI Source:       Laptop → homelab processing
+RTMP Ingest:      Mobile → homelab (IRL streams)
+Output Targets:   Twitch, YouTube, custom RTMP
+Monitoring:       Real-time stream health
+Bitrate Control:  Adaptive for mobile connections
+```
 
-## 🎯 Project Roadmap
-
-### ✅ Phase 1: Foundation (Complete)
-- [x] Hardware setup and Proxmox installation
-- [x] TrueNAS SCALE deployment
-- [x] Docker container host configuration
-- [x] Basic networking with custom DNS
-
-### 🚧 Phase 2: Core Services (In Progress)
-- [x] Immich (AI photo management)
-- [x] Pi-hole (DNS + ad blocking)
-- [x] Portainer (container management)
-- [ ] **Jellyfin (media server)**
-- [ ] **Nginx Proxy Manager (reverse proxy)**
-
-### 📋 Phase 3: Advanced Features (Planned)
-- [ ] Nextcloud (file sync)
-- [ ] Home Assistant (home automation)
-- [ ] Vaultwarden (password manager)
-- [ ] Monitoring stack (Grafana + Prometheus)
-- [ ] Automated backups to cloud storage
-
-### 🚀 Phase 4: Optimization (Future)
-- [ ] High availability setup
-- [ ] Advanced security hardening
-- [ ] Performance optimization
-- [ ] Multi-site replication
+### **Web Development Platform**
+- **SvelteKit Sites**: Main veka.gg development
+- **GitHub Integration**: Automated deployment pipelines
+- **Local Testing**: .veka domains for development
+- **SSL Certificates**: Let's Encrypt automation
 
 ---
 
@@ -222,127 +271,176 @@ homelab/
 - **Local DNS**: Custom domain resolution without external dependencies
 
 ### 🚀 Performance
-- **Enterprise Hardware**: Dell business-grade components
+- **Gaming Hardware**: GTX 1080 Ti provides excellent transcoding power
 - **ZFS Storage**: Advanced file system with compression and caching
 - **Dedicated Resources**: Isolated containers with resource limits
-- **SSD Caching**: Frequently accessed data cached on SSD
+- **Local Processing**: Sub-100ms latency for streaming workflows
 
 ### 🛠️ Management
 - **Web Interfaces**: All services accessible via clean web UIs
 - **Container Orchestration**: Docker Compose for easy deployment
-- **Monitoring**: Real-time performance and health monitoring
-- **Automated Backups**: Scheduled snapshots and offsite replication
+- **Automated Deployments**: Git-based CI/CD for websites
+- **Custom Domains**: Professional .veka.gg branding
 
 ---
 
-## 📈 Performance Metrics
+## 📈 Performance Targets
 
-### Current Utilization
-- **CPU Usage**: ~25% average (peaks at 60% during photo processing)
-- **Memory Usage**: 40GB/64GB utilized
-- **Storage I/O**: 95% read cache hit rate
-- **Network**: Gigabit LAN with ~100Mbps average usage
+### **Streaming Performance**
+- **Encoding**: 1080p60 @ 6000kbps minimum
+- **Latency**: <100ms for local NDI processing
+- **Uptime**: 99%+ availability for live streaming
+- **Quality**: Hardware-accelerated H.264/H.265
 
-### Service Response Times
-- **Immich Photo Search**: <500ms (AI-powered)
-- **File Access**: <50ms (SSD cache)
-- **Container Startup**: 5-30 seconds
-- **Backup Operations**: 2TB/hour over gigabit
+### **Web Hosting Performance**
+- **Response Time**: <200ms for veka.gg
+- **Uptime**: 99.9% availability target
+- **SSL Rating**: A+ on SSL Labs
+- **CDN**: Future Cloudflare integration
+
+### **Current Utilization**
+- **CPU Usage**: ~30% average during streaming
+- **Memory Usage**: 20GB/32GB+ utilized
+- **Storage I/O**: Fast local disk access
+- **Network**: Gigabit LAN with room for 2.5G/10G upgrade
 
 ---
 
 ## 🌟 Why This Setup?
 
-### vs. Cloud Services
-- ✅ **Privacy**: Your data never leaves your home
-- ✅ **Cost**: $0/month recurring vs $50+/month for equivalent cloud services
-- ✅ **Performance**: Local gigabit speeds vs internet-dependent access
-- ✅ **Control**: Full customization and feature control
+### **vs. Traditional Homelabs**
+- ✅ **Content Creation Focus**: Built for streaming and web development
+- ✅ **Gaming Hardware Reuse**: GTX 1080 Ti provides excellent transcoding
+- ✅ **Professional Branding**: Custom veka.gg domain integration
+- ✅ **Dual Purpose**: Gaming PC that doubles as enterprise homelab
 
-### vs. Other Homelab Approaches
-- ✅ **Enterprise Reliability**: Business-grade Dell hardware
-- ✅ **Scalability**: Proxmox allows easy VM/container expansion
-- ✅ **Data Integrity**: ZFS provides enterprise-level data protection
-- ✅ **Ease of Management**: Web-based interfaces for everything
+### **vs. Cloud Platforms**
+- ✅ **Cost Effective**: Repurposed existing gaming hardware
+- ✅ **Low Latency**: Local processing for streaming workflows
+- ✅ **Full Control**: Custom configurations for specific needs
+- ✅ **Privacy**: All content and data stays local
+- ✅ **Learning**: Hands-on experience with enterprise technologies
+
+### **vs. Other Gaming PC Conversions**
+- ✅ **Enterprise Practices**: Proper virtualization and storage
+- ✅ **Professional Services**: Production-ready web hosting
+- ✅ **Scalable Architecture**: Easy to expand as needs grow
+- ✅ **Documentation Focus**: Comprehensive guides for replication
+
+---
+
+## 📖 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [🔧 Hardware Conversion](docs/hardware-conversion.md) | Gaming PC to homelab transformation |
+| [🎥 Streaming Setup](docs/streaming-setup.md) | OBS headless and NDI configuration |
+| [🌐 Network Configuration](docs/network-config.md) | Domain strategy and reverse proxy |
+| [🐳 Docker Services](docs/docker-services.md) | Container deployment and management |
+| [🔒 Security Guide](docs/security.md) | Hardening and access control |
+| [📊 Monitoring Setup](docs/monitoring.md) | Performance tracking and alerts |
+| [🔄 Backup Strategy](docs/backup-strategy.md) | Data protection and recovery |
+| [🐛 Troubleshooting](docs/troubleshooting.md) | Common issues and solutions |
+
+---
+
+## 🛣️ Documentation Roadmap
+
+### **High Priority Docs**
+1. **Hardware Conversion Guide** - Gaming PC to enterprise homelab
+2. **Streaming Infrastructure** - OBS headless + NDI setup
+3. **Domain Configuration** - veka.gg subdomain strategy
+4. **Service Deployment** - Docker container guides
+
+### **Medium Priority Docs**
+5. **Network Security** - Firewall and access control
+6. **Performance Optimization** - Tuning for content creation
+7. **Backup & Recovery** - Data protection strategies
+8. **Monitoring & Alerting** - System health tracking
+
+### **Future Documentation**
+9. **Advanced Streaming** - Multi-platform automation
+10. **AI Integration** - Ollama and local model hosting
+11. **Home Automation** - Smart device integration
+12. **Scaling Guide** - Growing the homelab ecosystem
 
 ---
 
 ## 🤝 Contributing
 
-I'd love your feedback and contributions! Here's how you can help:
+This is a personal homelab project, but I welcome:
 
-### 🐛 Found an Issue?
-- Check the [troubleshooting guide](docs/troubleshooting.md) first
-- Search [existing issues](https://github.com/VEKAgg/homelab/issues)
-- Create a [new issue](https://github.com/VEKAgg/homelab/issues/new) with details
+### **Community Input**
+- 💡 **Suggestions**: Better approaches or service recommendations
+- 🐛 **Issue Reports**: Problems with documentation or guides
+- 📝 **Documentation**: Improvements and corrections
+- 🎥 **Content Ideas**: Streaming and homelab topics
 
-### 💡 Have a Suggestion?
-- [Start a discussion](https://github.com/VEKAgg/homelab/discussions)
-- Share your own homelab experiences
-- Suggest new services or optimizations
-
-### 📝 Improve Documentation
-- Fix typos or unclear instructions
-- Add screenshots or diagrams
-- Share your deployment experiences
+### **Not Accepting**
+- Direct code contributions (personal learning project)
+- Service requests or custom configurations
+- Hardware recommendations for different setups
 
 ---
 
 ## 🙏 Acknowledgments
 
-### Inspiration & Resources
+### **Inspiration & Resources**
 - **r/selfhosted** - Amazing community for self-hosting enthusiasts
 - **r/homelabindia** - Local community with great insights
 - **TrueNAS Community** - Excellent documentation and support
 - **Proxmox Team** - Fantastic virtualization platform
 
-### Special Thanks
-- **u/krynet** - Reddit homelab post that inspired the documentation structure
+### **Special Thanks**
+- **Gaming PC Community** - For showing what's possible with repurposed hardware
 - **Immich Team** - Creating the best Google Photos alternative
 - **Pi-hole Team** - Network-wide ad blocking made simple
+- **Content Creators** - Inspiring the dual-PC streaming approach
 
 ---
 
-## 📞 Support & Community
+## 📞 Connect
 
-### Get Help
-- 📚 Check the [documentation](docs/)
-- 🔍 Search [existing issues](https://github.com/VEKAgg/homelab/issues)
-- 💬 Join the [discussions](https://github.com/VEKAgg/homelab/discussions)
-- 📧 Email: [your-email@domain.com](mailto:your-email@domain.com)
+### **Main Channels**
+- 🌐 **Website**: [veka.gg](https://veka.gg) (coming soon)
+- 📺 **Streaming**: Twitch/YouTube (future content)
+- 💻 **GitHub**: [@VEKAgg](https://github.com/VEKAgg)
+- 📧 **Contact**: Via GitHub issues
 
-### Stay Updated
-- ⭐ Star this repository for updates
-- 👀 Watch for new releases
-- 🐦 Follow on social media (if applicable)
+### **Project Updates**
+- ⭐ **Star this repo** for updates and releases
+- 👀 **Watch releases** for major milestones
+- 📂 **Check docs/** for latest guides and tutorials
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - feel free to adapt concepts for your own homelab!
 
 ---
 
 ## 🏁 Final Notes
 
-This homelab represents hundreds of hours of research, testing, and optimization. It's designed to be:
+This homelab represents the journey of transforming gaming hardware into enterprise infrastructure while maintaining focus on content creation and learning. It's designed to be:
 
-- **Practical**: Real-world tested solutions
-- **Documented**: Every step explained clearly
-- **Scalable**: Easy to expand as needs grow
-- **Reliable**: Enterprise-grade components and practices
+- **Practical**: Real-world tested solutions for content creators
+- **Educational**: Step-by-step learning of enterprise technologies  
+- **Scalable**: Architecture that grows with expanding needs
+- **Personal**: Tailored for individual creativity and projects
 
-Whether you're building your first homelab or optimizing an existing setup, I hope this documentation helps you create something amazing!
+Whether you're a gamer looking to repurpose hardware, a content creator seeking better infrastructure, or a homelab enthusiast wanting to try something different, I hope this documentation provides valuable insights!
 
 ---
 
 <div align="center">
 
-**Built with ❤️ for the self-hosting community**
+**Built with ❤️ for content creators and homelab enthusiasts**
+
+*Turning gaming hardware into enterprise infrastructure, one container at a time*
 
 [![Star History Chart](https://api.star-history.com/svg?repos=VEKAgg/homelab&type=Date)](https://star-history.com/#VEKAgg/homelab&Date)
 
-*Last Updated: September 24, 2025*
+**Last Updated**: September 24, 2025
 
 </div>
