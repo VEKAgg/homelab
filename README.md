@@ -439,7 +439,15 @@ Whether you're a gamer looking to repurpose hardware, a content creator seeking 
 
 *Turning gaming hardware into enterprise infrastructure, one container at a time*
 
-[![Star History Chart](https://api.star-history.com/svg?repos=VEKAgg/homelab&type=Date)](https://star-history.com/#VEKAgg/homelab&Date)
+## Star History
+
+<a href="https://www.star-history.com/?repos=VEKAgg%2Fhomelab&type=timeline&logscale=&legend=bottom-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=VEKAgg/homelab&type=timeline&theme=dark&logscale&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=VEKAgg/homelab&type=timeline&logscale&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=VEKAgg/homelab&type=timeline&logscale&legend=bottom-right" />
+ </picture>
+</a>
 
 **Last Updated**: September 24, 2025
 
